@@ -158,9 +158,15 @@ def main():
     
     print(f"已将rosrun命令写入: {output_file}")
     print("="*80)
-    print("请使用以下命令进行后续处理:")
+    print("写入了以下命令:")
     print(preprocess_cmd)
     print("="*80)
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+    except Exception as e:
+        print(f"程序运行出错: {e}")
+    finally:
+        # 添加等待用户输入，防止终端关闭
+        input("\n程序执行完毕，按回车键或扫把退出...")
