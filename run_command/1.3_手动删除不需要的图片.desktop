@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=1.3_手动删除不需要的图片
+Comment=1.3_手动删除不需要的图片
+Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/1.3_go_Image_Data.sh; exec bash"
+Icon=utilities-terminal
+Terminal=true

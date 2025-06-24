@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=1.2_ros包转换成图片
+Comment=1.2_ros包转换成图片
+Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/1.2_bag2image.sh; exec bash"
+Icon=utilities-terminal
+Terminal=true

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=1.1_录制相机数据
+Comment=1.1_录制相机数据
+Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/1.1_record_camera_bag.sh; exec bash"
+Icon=utilities-terminal
+Terminal=true

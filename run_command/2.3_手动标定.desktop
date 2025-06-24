@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=2.3_手动标定
+Comment=2.3_手动标定
+Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/2.3_manual_calibration.sh; exec bash"
+Icon=utilities-terminal
+Terminal=true

@@ -1,0 +1,99 @@
+(一)标定鱼眼相机：
+(1)录制相机的数据包：
+录制左相机，因为主要采用左相机进行附色：
+cd /home/handsfree/GeoScan/GeoScan_Data/Camera_Bag
+rosbag record /left_camera/image
+
+(2)把bag转换成图片：
+cd /home/handsfree/GeoScan/GeoScan_Calibration/camera_calibration
+python3 extract_image.py
+
+抽取的棋盘图会存储在下面路径下，删除一下没有棋盘格的照片
+/home/handsfree/GeoScan/GeoScan_Data/Image_Data
+
+(3)开始标定相机内参：
+cd /home/handsfree/GeoScan/GeoScan_Calibration/camera_calibration
+pyhon3 calibration_fisher_camera.py
+
+
+获得标定结果如下：
+DIM=(1280, 1024)
+K=np.array([[464.04432582989415, 0.0, 659.0715266617434], [0.0, 464.2064919875051, 469.70782517712786], [0.0, 0.0, 1.0]])
+D=np.array([[-0.016525973596605383], [0.00022369609738801094], [-0.0014387876533125373], [0.0004169071742806358]])
+
+这个结果一是要填到下面preprocess的命令中，一个是要填到/home/handsfree/GeoScan/GeoScan_SLAM/Fast_LVIO2_ws/src/FAST-LIVO2/config/camera_geoscan.yaml中，里面的其中一些参数改成这样。
+cam_fx: 464.04432582989415
+cam_fy: 464.2064919875051
+cam_cx: 659.0715266617434
+cam_cy: 469.7104383339304
+k1: -0.016525973596605383
+k2: 0.00022369609738801094
+k3: -0.0014387876533125373
+k4: 0.0004169071742806358
+
+(二)标定激光雷达和相机
+(0)
+source ~/GeoScan/run_command/env.sh
+roslaunch livox_ros_driver2 rviz_MID360.launch
+
+
+source ~/GeoScan/run_command/env.sh
+roslaunch mvs_ros_pkg mvs_camera_trigger2_indoor.launch
+
+#下面这个命令执行三次，取三个角度
+
+cd ~/GeoScan/GeoScan_Data/Calibration_Data
+rosbag record /left_camera/image /livox/imu /livox/lidar
+
+
+(1)进入标定程序，注意这里rosrun的参数来自于前面鱼眼相机标定的结果
+cd /home/handsfree/GeoScan/GeoScan_Calibration/direct_visual_lidar_calibration_ws
+source devel/setup.bash
+
+rosrun direct_visual_lidar_calibration preprocess  /home/handsfree/GeoScan/GeoScan_Data/Calibration_Data  -av --camera_model=fisheye --camera_intrinsics=464.04432582989415,464.2064919875051,659.0715266617434,469.70782517712786 --camera_distortion_coeffs=-0.016525973596605383,0.00022369609738801094,-0.0014387876533125373,0.0004169071742806358  /home/handsfree/GeoScan/GeoScan_Data/Calibration_process
+
+
+	这之后，进行手动的标定，右击分别在点云和图像中选择同名点，建议选择6个点，每选择完成一对点之后保存点，选择完成6个点后估计，最后保存总的结果
+	cd /home/handsfree/GeoScan/GeoScan_Calibration/direct_visual_lidar_calibration_ws
+	source devel/setup.bash
+	rosrun direct_visual_lidar_calibration initial_guess_manual /home/handsfree/GeoScan/GeoScan_Data/Calibration_process
+	
+	进行优化配准：
+	cd /home/handsfree/GeoScan/GeoScan_Calibration/direct_visual_lidar_calibration_ws
+	source devel/setup.bash
+	rosrun direct_visual_lidar_calibration calibrate /home/handsfree/GeoScan/GeoScan_Data/Calibration_process
+	
+	查看校准的结果：
+	cd /home/handsfree/GeoScan/GeoScan_Calibration/direct_visual_lidar_calibration_ws
+	source devel/setup.bash
+	rosrun direct_visual_lidar_calibration viewer /home/handsfree/GeoScan/GeoScan_Data/Calibration_process
+	
+	将校准后的矩阵输入网站中：https://staff.aist.go.jp/k.koide/workspace/matrix_converter/matrix_converter.html，记得点击reverse，计算的出Matrix 4x4 (Row-major)，左上角的3x3是Rcl矩阵，矩阵最右边的第四列的前三个数是Pcl矩阵，写于yaml文件当中即可
+最后结果
+-0.00094  -0.99989  0.01503   0.07076   
+0.41658   -0.01406  -0.90899  -0.07562  
+0.90910   0.00541   0.41654   0.00714   
+0.00000   0.00000   0.00000   1.00000   
+
+yaml文件在这
+handsfree@handsfree:~/GeoScan/GeoScan_SLAM/Fast_LVIO2_ws/src/FAST-LIVO2/config$ ls
+avia.yaml	       mid360_3DGS_indoor.yaml	  mid360_indoor.yaml
+camera_geoscan.yaml    mid360_3DGS_original.yaml  mid360_nocolor.yaml
+camera_MARS_LVIG.yaml  mid360_3DGS_outdoor.yaml   mid360_original.yaml
+camera_pinhole.yaml    mid360_3DGS.yaml		  mid360_outdoor.yaml
+MARS_LVIG.yaml	       mid360_backup.yaml	  mid360.yaml
+只要带mid360的yaml都要改参数，里面的其中一些参数都改成这样
+  Rcl: [-0.00094 , -0.99989 , 0.01503,
+        0.41658  , -0.01406  ,-0.90899,
+        0.90910  , 0.00541  , 0.41654]
+  Pcl: [0.07076, -0.07562, -0.00714 ]  
+	
+
+
+
+
+
+
+
+
+

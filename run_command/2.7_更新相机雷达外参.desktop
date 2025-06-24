@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=2.7_更新相机雷达外参
+Comment=2.7_更新相机雷达外参
+Exec=python3 "/home/handsfree/auto-calibration/scripts/2.6_update_extrinsics.py" "/home/handsfree/auto-calibration/scripts/extrinsic_matrix.txt"
+Path=/home/handsfree/auto-calibration/scripts
+Icon=utilities-terminal
+Terminal=true

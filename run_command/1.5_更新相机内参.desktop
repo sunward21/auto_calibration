@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=1.5_更新相机内参
+Comment=1.5_更新相机内参
+Exec=python3 "/home/handsfree/auto-calibration/scripts/1.5_process_intrinsics.py" "/home/handsfree/auto-calibration/scripts/calib_result.txt"
+Path=/home/handsfree/auto-calibration/scripts
+Icon=utilities-terminal
+Terminal=true

@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=2.4_优化配准
+Comment=2.4_优化配准
+Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/2.4_Optimize_registration.sh; exec bash"
+Icon=utilities-terminal
+Terminal=true

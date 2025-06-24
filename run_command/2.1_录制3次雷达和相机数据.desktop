@@ -1,0 +1,8 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=2.1_录制3次雷达和相机数据
+Comment=2.1_录制3次雷达和相机数据
+Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/2.1_record_lidar_camera_bags.sh; exec bash"
+Icon=utilities-terminal
+Terminal=true
