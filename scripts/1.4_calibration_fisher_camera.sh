@@ -16,7 +16,9 @@ python3 calibration_fisher_camera.py
 # 检查执行结果
 if [ $? -eq 0 ]; then
     echo "标定完成！"
-    echo "请复制标定结果到calib_result!!!!!"
+    echo "请复制标定结果到/scripts/calib_result!!!!!"
+    echo "请复制标定结果到/scripts/calib_result!!!!!"
+    echo "请复制标定结果到/scripts/calib_result!!!!!"
 else
     echo "错误：标定失败，请检查日志"
     exit 2

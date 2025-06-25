@@ -54,3 +54,4 @@ if __name__ == "__main__":
         f.write("\n")  # 添加换行符结尾
     
     print(f"转换完成！结果已保存至: {output_path}")
+    input("\n程序执行完毕，按回车键或扫把退出...")
