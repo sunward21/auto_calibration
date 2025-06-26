@@ -17,7 +17,7 @@ gnome-terminal -- bash -c "
     roslaunch livox_ros_driver2 rviz_MID360.launch;
     exec bash"
 
-sleep 3
+sleep 5
 
 # 启动相机驱动
 gnome-terminal -- bash -c "
