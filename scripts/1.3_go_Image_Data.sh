@@ -43,9 +43,6 @@ echo "文件管理器已打开，显示目录: $TARGET_DIR"
 echo "该目录包含 $file_count 个文件"
 echo "请手动删除其中没有棋盘格的照片"
 
-# 等待 5 秒后关闭终端窗口
-echo "5秒后关闭终端"
-sleep 5
-kill -9 $PPID
+echo "删完之后可用扫把杀掉终端"
  
 exit 0
