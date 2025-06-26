@@ -211,4 +211,6 @@ def main():
     update_yaml_files(matrix, yaml_dir)
 
 if __name__ == "__main__":
-    main()
+        main()
+        # 添加等待用户输入，防止终端关闭
+        input("\n程序执行完毕，按回车键或扫把退出...")
