@@ -3,7 +3,7 @@ Version=1.0
 Type=Application
 Name=1.4_标定鱼眼相机
 Comment=1.4_标定鱼眼相机
-Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/1.4_calibration_fisher_camera.sh; exec bash"
+Exec=gnome-terminal -- bash -c "bash /home/handsfree/auto-calibration/scripts/1.4.1_calibration_fisher_camera.sh; exec bash"
 Icon=utilities-terminal
 Terminal=true
 

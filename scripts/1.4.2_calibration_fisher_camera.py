@@ -82,6 +82,45 @@ else:
     print("K=np.array(" + str(K.tolist()) + ")")
     print("D=np.array(" + str(D.tolist()) + ")")
 
+# 保存标定结果到文件 - 完全按照指定格式
+    output_file = '/home/handsfree/auto-calibration/scripts/calib_result.txt'
+    with open(output_file, 'w') as f:
+        # 写入DIM信息
+        width, height = _img_shape[::-1]
+        f.write(f"DIM=({width}, {height})\n")
+        
+        # 写入K矩阵（精确格式）
+        f.write("K=np.array([[")
+        # 第一行
+        f.write(f"{K[0,0]:.15f}, {K[0,1] if abs(K[0,1]) > 1e-10 else 0.0:.1f}, {K[0,2]:.15f}")
+        f.write("], [")
+        # 第二行
+        f.write(f"{K[1,0] if abs(K[1,0]) > 1e-10 else 0.0:.1f}, {K[1,1]:.15f}, {K[1,2]:.15f}")
+        f.write("], [")
+        # 第三行
+        f.write(f"{K[2,0] if abs(K[2,0]) > 1e-10 else 0.0:.1f}, {K[2,1] if abs(K[2,1]) > 1e-10 else 0.0:.1f}, {K[2,2]:.15f}")
+        f.write("]])\n")
+        
+        # 写入D矩阵（精确格式）
+        f.write("D=np.array([")
+        # 第一项
+        f.write(f"[{D[0,0]:.15f}]")
+        f.write(", ")
+        # 第二项（特殊处理科学计数法）
+        if abs(D[1,0]) < 1e-5 and abs(D[1,0]) > 0:
+            f.write(f"[{D[1,0]:.15e}]")
+        else:
+            f.write(f"[{D[1,0]:.15f}]")
+        f.write(", ")
+        # 第三项
+        f.write(f"[{D[2,0]:.15f}]")
+        f.write(", ")
+        # 第四项
+        f.write(f"[{D[3,0]:.15f}]")
+        f.write("])\n")
+    
+    print(f"Calibration results saved to {output_file}")
+
     # 保存标定结果到文件
     np.savez('/home/handsfree/GeoScan/GeoScan_Calibration/camera_calibration/fisheye_calibration.npz', K=K, D=D, dims=_img_shape[::-1])
 
